@@ -160,7 +160,7 @@ Button(btn_frame, text="🚪 Quit", font=("Arial", 12),
        bg="#ff5555", command=quit_app).grid(row=0, column=3, padx=8)
 
 
-# ==== RUN MAIN ====
+# ==== MAIN ====
 if __name__ == "__main__":
     start_prediction()
     window.mainloop()
