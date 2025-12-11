@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Signs → Letters | ASL to Word Converter</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background: linear-gradient(135deg, #4ddbc3, #32bfb5e4);
+      text-align: center;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0;
+    }
+
+    .container {
+      background: rgba(250, 254, 255, 0.901);
+      padding: 40px 50px;
+      border-radius: 20px;
+      box-shadow: 0px 8px 30px rgba(97, 196, 250, 0.911);
+      width: 450px;
+      transition: 0.3s ease;
+    }
+
+    .container:hover {
+      transform: scale(1.02);
+    }
+
+    h1 {
+      font-size: 26px;
+      color: #453f3f;
+      margin-bottom: 15px;
+    }
+
+    p {
+      color: #333;
+      margin-bottom: 25px;
+    }
+
+    input[type="file"] {
+      background: #9ed2dde5;
+      padding: 12px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 10px 25px;
+      font-size: 17px;
+      border-radius: 10px;
+      background: #0055aa;
+      color: white;
+      border: none;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #003366;
+      transform: scale(1.05);
+    }
+
+    img {
+      margin-top: 25px;
+      width: 230px;
+      border-radius: 12px;
+      display: none;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    }
+
+    #result {
+      font-size: 20px;
+      margin-top: 25px;
+      font-weight: bold;
+      color: #222;
+      background: #e6f0ff;
+      padding: 10px;
+      border-radius: 8px;
+      display: inline-block;
+      min-width: 200px;
+    }
+
+    #homeBtn {
+      margin-top: 30px;
+      font-size: 15px;
+      background: #444;
+      color: #fff;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    #homeBtn:hover {
+      background: #222;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1> Signs to Word Converter</h1>
+    <p>Upload a hand sign image to identify its corresponding letter.</p>
+
+    <input type="file" id="imageInput" accept="image/*">
+    <br>
+    <button id="predictBtn">Predict</button>
+
+    <div>
+      <img id="previewImage" src="" alt="Uploaded Image Preview">
+    </div>
+
+    <div id="result"></div>
+
+    <button id="homeBtn" onclick="goHome()"> Back to Home</button>
+  </div>
+
+  <script>
+    const imageInput = document.getElementById('imageInput');
+    const previewImage = document.getElementById('previewImage');
+    const resultDiv = document.getElementById('result');
+    const predictBtn = document.getElementById('predictBtn');
+
+    // Image preview
+    imageInput.addEventListener('change', () => {
+      const file = imageInput.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = e => {
+          previewImage.src = e.target.result;
+          previewImage.style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    // Prediction logic
+    predictBtn.addEventListener('click', async () => {
+      const file = imageInput.files[0];
+      if (!file) {
+        alert("Please upload an image first!");
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append("file", file);
+      resultDiv.textContent = "Predicting...";
+
+      try {
+        const response = await fetch("/predict_sign", {
+          method: "POST",
+          body: formData
+        });
+
+        const data = await response.json();
+
+        if (data.error) {
+          resultDiv.textContent = "Error: " + data.error;
+        } else {
+          resultDiv.innerHTML = `
+             Predicted Letter: <b>${data.predicted_class}</b><br>
+             Confidence: ${data.confidence}%
+          `;
+        }
+      } catch (err) {
+        resultDiv.textContent = "Error during prediction!";
+      }
+    });
+
+    function goHome() {
+      window.location.href = "/";
+    }
+  </script>
+</body>
+</html>

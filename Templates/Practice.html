@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ASL Practice Mode</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background:#f7f7f7;
+            text-align:center;
+            padding:30px;
+        }
+
+        .box {
+            background:white;
+            padding:20px;
+            width:60%;
+            margin: auto;
+            border-radius:12px;
+            box-shadow:0 0 8px rgba(0,0,0,0.2);
+        }
+
+        #instruction {
+            font-size:30px;
+            font-weight:bold;
+            margin:20px;
+        }
+
+        #countdown {
+            font-size:50px;
+            font-weight:bold;
+            color:#0077ff;
+            margin:10px;
+        }
+
+        #feedback {
+            font-size:30px;
+            font-weight:bold;
+            margin:20px;
+        }
+
+        #correctImage {
+            width:120px;
+            display:none;
+            margin:10px auto;
+        }
+    </style>
+</head>
+<body>
+
+<div class="box">
+    <h2>ASL Practice Mode</h2>
+
+    <div id="instruction">Loading...</div>
+    <div id="countdown"></div>
+
+    <video id="webcam" width="350" height="260" autoplay></video>
+
+    <div id="feedback"></div>
+
+    <img id="correctImage" src="" alt="Correct Sign">
+
+</div>
+
+<script>
+    const instructionDiv = document.getElementById("instruction");
+    const countdownDiv = document.getElementById("countdown");
+    const feedbackDiv = document.getElementById("feedback");
+    const correctImg = document.getElementById("correctImage");
+    const video = document.getElementById("webcam");
+
+    // Start webcam
+    navigator.mediaDevices.getUserMedia({ video: true })
+        .then(stream => { video.srcObject = stream; });
+
+    // Request first letter
+    fetch("/start_practice")
+        .then(r => r.json())
+        .then(data => {
+            currentTarget = data.target_letter;
+            instructionDiv.innerHTML = `Sign: <span style='color:#ff0066;'>${currentTarget}</span>`;
+            startCountdown();
+        });
+
+    function startCountdown() {
+        let time = 3;
+        countdownDiv.innerHTML = time;
+
+        let interval = setInterval(() => {
+            time -= 1;
+            countdownDiv.innerHTML = time;
+
+            if (time === 0) {
+                clearInterval(interval);
+                countdownDiv.innerHTML = "";
+                captureFrame();
+            }
+        }, 1000);
+    }
+
+    function captureFrame() {
+        // Capture image from webcam
+        let canvas = document.createElement("canvas");
+        canvas.width = 350;
+        canvas.height = 260;
+        let ctx = canvas.getContext("2d");
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+        let imageData = canvas.toDataURL("image/jpeg");
+
+        // Send to backend
+        fetch("/validate_practice", {
+            method: "POST",
+            body: JSON.stringify({ image: imageData }),
+            headers: { "Content-Type": "application/json" }
+        })
+        .then(r => r.json())
+        .then(data => {
+            if (data.correct) {
+                feedbackDiv.style.color = "green";
+                feedbackDiv.innerHTML = "Guessed correctly! 🎉";
+
+                correctImg.style.display = "none";
+
+                // Load next letter
+                setTimeout(() => {
+                    instructionDiv.innerHTML = `Sign: <span style='color:#ff0066;'>${data.next_letter}</span>`;
+                    feedbackDiv.innerHTML = "";
+                    startCountdown();
+                }, 1500);
+
+            } else {
+                feedbackDiv.style.color = "red";
+                feedbackDiv.innerHTML = `Wrong! You signed ${data.predicted}.`;
+
+                // Show correct image
+                correctImg.src = `/static/asl_images/${data.correct_letter}.jpg`;
+                correctImg.style.display = "block";
+
+                // Retry same letter
+                setTimeout(() => {
+                    feedbackDiv.innerHTML = "";
+                    correctImg.style.display = "none";
+                    startCountdown();
+                }, 3000);
+            }
+        })
+    }
+</script>
+<script src="/static/script.js"></script>
+
+</body>
+</html>

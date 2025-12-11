@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Static Prediction Options</title>
+  <style>
+    body {
+      background: linear-gradient(135deg, #4ddbc3, #32bfb5e4);
+      font-family: 'Poppins', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      background: rgba(250, 254, 255, 0.901);
+      padding: 3rem 4rem;
+      border-radius: 25px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+      text-align: center;
+      width: 400px;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      margin-bottom: 2rem;
+      color: #2c3e50;
+    }
+
+    button {
+      display: block;
+      width: 100%;
+      margin: 10px 0;
+      padding: 14px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 15px;
+      background: linear-gradient(135deg, #4facfe, #00f2fe);
+      color: #453f3f;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+      background: linear-gradient(135deg, #00c6ff, #0072ff);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Choose Your Static Prediction Type</h1>
+    <button onclick="goToLettersToSigns()">Letters → Signs</button>
+    <button onclick="goToSignsToLetters()">Signs → Letters</button>
+  </div>
+
+  <script>
+    function goToLettersToSigns() {
+      window.location.href = "/letters_to_signs";
+    }
+    function goToSignsToLetters() {
+      window.location.href = "/signs_to_letters";
+    }
+  </script>
+</body>
+</html>

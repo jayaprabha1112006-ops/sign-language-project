@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Letters to Signs</title>
+  <style>
+    body {
+      text-align: center;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #4ddbc3, #32bfb5e4);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    input {
+      padding: 10px;
+      font-size: 18px;
+      margin-top: 15px;
+      border-radius: 8px;
+      border: 1px solid #aaa;
+      outline: none;
+      width: 350px;
+      text-align: center;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 18px;
+      border-radius: 10px;
+      background: #5470de;
+      color: white;
+      border: none;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #003366;
+    }
+
+    #signContainer {
+      margin-top: 30px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+    }
+
+    .signImage {
+      width: 120px;
+      height: auto;
+      border-radius: 12px;
+      box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+    }
+    .container {
+  text-align: center;
+  background: rgba(250, 254, 255, 0.901);
+  padding: 50px 70px;
+  border-radius: 25px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(12px);
+}
+
+
+    .space {
+      width: 80px;
+      height: 10px;
+      display: inline-block;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+  <h1>Word to Sign Conversion</h1>
+  <input type="text" id="letterInput" placeholder="Type a word or sentence">
+  <button onclick="showSigns()">Show Signs</button>
+  
+  <div id="signContainer"></div>
+
+  <script>
+    function showSigns() {
+      const input = document.getElementById("letterInput").value.toUpperCase();
+      const container = document.getElementById("signContainer");
+      container.innerHTML = "";
+  
+      if (input.trim().length === 0) {
+        alert("Please enter a word or sentence!");
+        return;
+      }
+  
+      for (const char of input) {
+        if (char === " ") {
+          const space = document.createElement("div");
+          space.className = "space";
+          container.appendChild(space);
+          continue;
+        }
+    
+        if (!char.match(/[A-Z]/)) continue;
+
+        const img = document.createElement("img");
+        img.className = "signImage";
+
+        const randomIndex = Math.floor(Math.random() * 5) + 1;
+
+        
+        let imgPath = `/static/asl_dataset/${char}/${char}${randomIndex}.jpeg`;
+        img.src = imgPath;
+
+        img.onerror = () => {
+          img.src = `/static/asl_dataset/${char}/${char}${randomIndex}.jpg`;
+          img.onerror = () => {
+            img.remove();
+            console.warn(`No image found for '${char}'`);
+          };
+        };
+
+        container.appendChild(img);
+      }
+    }
+
+  </script>
+</body>
+</div>
+</html>

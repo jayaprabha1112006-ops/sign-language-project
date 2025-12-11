@@ -1,0 +1,119 @@
+/* Page Background */
+body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #4ddbc3, #32bfb5e4);
+  color: #fff;
+  height: 100vh;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Centered Container */
+.container {
+  text-align: center;
+  background: rgba(250, 254, 255, 0.901);
+  padding: 50px 70px;
+  border-radius: 25px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(12px);
+}
+
+/* Heading */
+h1 {
+  font-size: 2.5em;
+  margin-bottom: 10px;
+  color: #000000;
+}
+
+/* Tagline */
+.tagline {
+  font-size: 1.1em;
+  color: #585151;
+  margin-bottom: 30px;
+}
+
+/* Button Layout */
+.button-container {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+}
+
+/* Soft, modern buttons */
+.soft-btn {
+  background: linear-gradient(135deg, #47c1bb, #49d0c7);
+  border: none;
+  color: #1f2833;
+  padding: 15px 40px;
+  font-size: 1.1em;
+  font-weight: 600;
+  border-radius: 18px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(102, 252, 241, 0.4);
+}
+
+.soft-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(123, 97, 255, 0.707);
+}
+
+.soft-btn:active {
+  transform: scale(0.97);
+}
+
+
+/* Back Button */
+.back-btn {
+  margin-top: 30px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #046a90;
+  border: 2px solid #66fcf1;
+  padding: 10px 25px;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+.back-btn:hover {
+  background: #66fcf1;
+  color: #1f2833;
+}
+
+/* Input Fields */
+.text-input, .file-input {
+  margin: 15px 0;
+  padding: 12px 18px;
+  border: none;
+  border-radius: 15px;
+  font-size: 1em;
+  width: 70%;
+  outline: none;
+  box-shadow: 0 4px 10px rgba(102, 252, 241, 0.3);
+}
+
+/* Display Areas */
+.signs-display, .result-display {
+  margin-top: 25px;
+  min-height: 100px;
+  padding: 20px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: inset 0 0 10px rgba(102, 252, 241, 0.2);
+  color: #66fcf1;
+  font-size: 1.1em;
+}
+button {
+  margin: 0.5rem;
+  display: block; 
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1rem;
+}
+
+

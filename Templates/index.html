@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ASL Recognition System</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <script src="{{ url_for('static', filename='scripts.js') }}"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>ASL Recognition System</h1>
+    <p class="tagline">Bridging Communication with AI & Vision</p>
+
+    <div class="button-container">
+      <button class="soft-btn" onclick="goToStatic()">Static Prediction</button>
+      <button class="soft-btn" onclick="goToDynamic()">Dynamic Prediction</button>
+      <button class="soft-btn" onclick="goToPractice()">Practice</button>
+
+    </div>
+  </div>
+</body>
+</html>

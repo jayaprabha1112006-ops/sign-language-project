@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dynamic Prediction | ASL Recognition</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <script src="{{ url_for('static', filename='scripts.js') }}"></script>
+</head>
+<body>
+  <div class="container">
+    <h1> Dynamic Prediction</h1>
+    <p class="tagline">Allow camera access to begin real-time hand sign recognition</p>
+
+    <div class="button-container">
+      <button class="soft-btn" onclick="startDynamic()">Start Prediction</button>
+    </div>
+    <div id="result" style="margin-top: 20px; font-weight: bold; color: #007bff;"></div>
+
+    <button class="back-btn" onclick="goHome()">← Back to Home</button>
+  </div>
+</body>
+</html>
